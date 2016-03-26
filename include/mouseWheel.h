@@ -20,27 +20,27 @@
 typedef struct mouseWheel
 {
 
-	float xConstants[MOUSEWHEEL_NUMBER];
-	float yConstants[MOUSEWHEEL_NUMBER];
-	float angleConstants[MOUSEWHEEL_NUMBER];
-	Encoder mouseWheels[MOUSEWHEEL_NUMBER];
+	float *xConstants;
+	float *yConstants;
+	float *angleConstants;
+	Encoder *mouseWheels;
 	float xPosition;
 	float yPosition;
 	float rotation;
+	int mousewheelNumber;
 }mouseWheel;
 
 
 typedef struct trainingSet
 {
-	float actualReadings[MOUSEWHEEL_NUMBER][TRAINING_SET_SIZE];
+	int mousewheelNumber;
+	int trainingSetSize;
+	float **actualReadings;
 }trainingSet;
 
-mouseWheel mouseWheelInit(Encoder inputs[MOUSEWHEEL_NUMBER],
-		float xCoef[MOUSEWHEEL_NUMBER],
-		float yCoef[MOUSEWHEEL_NUMBER],
-		float rotCoef[MOUSEWHEEL_NUMBER]);
+mouseWheel mouseWheelInit(int mouseWheels, Encoder *inputs, float *xCoef, float *yCoef, float *rotCoef);
 
 void mouseWheelReset(mouseWheel tracker);
 
-size_t trainMouseWheel(mouseWheel mouse, const char *fileName);
+size_t trainMouseWheel(mouseWheel mouse, int trainingSetSize, const char *fileName);
 

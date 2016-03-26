@@ -12,12 +12,13 @@
 #include "API.h"
 
 
-mouseWheel mouseWheelInit(Encoder inputs[MOUSEWHEEL_NUMBER],
-		float xCoef[MOUSEWHEEL_NUMBER],
-		float yCoef[MOUSEWHEEL_NUMBER],
-		float rotCoef[MOUSEWHEEL_NUMBER])
+mouseWheel mouseWheelInit(int mouseWheels, Encoder *inputs, float *xCoef, float *yCoef, float *rotCoef)
 {
 	mouseWheel aMouseWheel;
+	aMouseWheel.xConstants = malloc(sizeof(float)*mouseWheels);
+	aMouseWheel.yConstants = malloc(sizeof(float)*mouseWheels);
+	aMouseWheel.angleConstants = malloc(sizeof(float)*mouseWheels);
+	aMouseWheel.mouseWheels = malloc(sizeof(Encoder)*mouseWheels);
 	aMouseWheel.mouseWheels = inputs;
 	aMouseWheel.xConstants = xCoef;
 	aMouseWheel.yConstants = yCoef;
@@ -69,9 +70,10 @@ float getRotation(mouseWheel tracker)
 	return rotation;
 }
 
-size_t trainMouseWheel(mouseWheel mouse, const char *fileName)
+size_t trainMouseWheel(mouseWheel mouse,int trainingSetSize, const char *fileName)
 {
 	trainingSet aTrainingSet;
+	aTrainingSet.actualReadings = malloc(sizeof(float)*mouse.mousewheelNumber*trainingSetSize);
 	for(int testRun = 0; testRun < TRAINING_SET_SIZE; testRun++)
 	{
 		unsigned long startTime = millis();
@@ -87,8 +89,8 @@ size_t trainMouseWheel(mouseWheel mouse, const char *fileName)
 			aTrainingSet.actualReadings[encoderAxis][testRun] = encoderGet(mouse.mouseWheels[encoderAxis]);
 		}
 	}
-	FILE trainingSet_file = fopen(fileName,"w");
-	size_t bytesWritten = fwrite(&aTrainingSet, sizeof(trainingSet), 1, trainingSet_file);
+	FILE *trainingSet_file = fopen(fileName,"w");
+	size_t bytesWritten = fwrite(aTrainingSet.actualReadings, sizeof(aTrainingSet.actualReadings), 1, trainingSet_file);
 	fclose(trainingSet_file);
 
 	return bytesWritten;

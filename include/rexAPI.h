@@ -76,6 +76,9 @@ typedef struct joystick
 	axis leftDpad;
 } joy;
 
+/*
+ * Type definition for conversion function from raw to actual motor power.
+ */
 typedef int (*motorOutput)(axis);
 
 /*
@@ -207,7 +210,7 @@ motorOutput setMotorOutputFunction_lcd();
  *
  * @return returns a motor output axis
  */
-axis* setMotorOutputAxis_lcd();
+axis *setMotorOutputAxis_lcd();
 
 /*
  * Function that returns the digital binary value of a digital button group
@@ -260,6 +263,12 @@ void setMotorPowers();
  * Runs motors based on motor settings.
  */
 void runMotors_op(void *parameters);
+
+
+/*
+ * Stops all motors.
+ */
+void stopAllMotors();
 
 
 #endif /* REXAPI_H_ */

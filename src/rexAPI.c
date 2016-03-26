@@ -33,7 +33,7 @@ void getJoysticks(void *ignore)
 		main.leftBumper.axisValue 			= 	joystickGetDigitalAxis(1,5);
 		main.rightDpad.axisValue 			= 	joystickGetDigitalAxis(1,8);
 		main.leftDpad.axisValue 			= 	joystickGetDigitalAxis(1,7);
-		partner.rightBumper.axisValue 			= 	joystickGetDigitalAxis(2,6);
+		partner.rightBumper.axisValue 		= 	joystickGetDigitalAxis(2,6);
 		partner.leftBumper.axisValue 		= 	joystickGetDigitalAxis(2,5);
 		partner.rightDpad.axisValue 		= 	joystickGetDigitalAxis(2,8);
 		partner.leftDpad.axisValue 			= 	joystickGetDigitalAxis(2,7);
@@ -567,5 +567,13 @@ void runMotors_op(void *parameters)
 	{
 		setMotorPowers();
 		setAllMotors();
+	}
+}
+
+void stopAllMotors()
+{
+	for(int i; i<10; i++)
+	{
+		motorSet(i,0);
 	}
 }

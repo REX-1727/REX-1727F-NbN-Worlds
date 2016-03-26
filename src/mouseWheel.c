@@ -74,7 +74,7 @@ size_t trainMouseWheel(mouseWheel mouse,int trainingSetSize, const char *fileNam
 {
 	trainingSet aTrainingSet;
 	aTrainingSet.actualReadings = malloc(sizeof(float)*mouse.mousewheelNumber*trainingSetSize);
-	for(int testRun = 0; testRun < TRAINING_SET_SIZE; testRun++)
+	for(int testRun = 0; testRun < trainingSetSize; testRun++)
 	{
 		unsigned long startTime = millis();
 		while(millis() < startTime + TRAINING_TIME)
@@ -84,7 +84,7 @@ size_t trainMouseWheel(mouseWheel mouse,int trainingSetSize, const char *fileNam
 		}
 		stopAllMotors();
 		delay(500);
-		for(int encoderAxis = 0; encoderAxis < MOUSEWHEEL_NUMBER; encoderAxis++)
+		for(int encoderAxis = 0; encoderAxis < mouse.mousewheelNumber; encoderAxis++)
 		{
 			aTrainingSet.actualReadings[encoderAxis][testRun] = encoderGet(mouse.mouseWheels[encoderAxis]);
 		}

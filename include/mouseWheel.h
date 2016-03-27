@@ -12,9 +12,7 @@
 
 #endif /* MOUSEWHEEL_H_ */
 
-#define MOUSEWHEEL_NUMBER 		3
-#define TRAINING_SET_SIZE 		9
-#define TRAINING_SET_MIN_SIZE	9
+
 #define TRAINING_TIME			5000
 
 typedef struct mouseWheel

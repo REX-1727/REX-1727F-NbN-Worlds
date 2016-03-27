@@ -58,5 +58,12 @@ void initializeIO() {
  * will not start. An autonomous mode selection menu like the pre_auton() in other environments
  * can be implemented in this task if desired.
  */
+Encoder mouseWheel_1;
+Encoder mouseWheel_2;
+Encoder mouseWheel_3;
 void initialize() {
+	mouseWheel_1 = encoderInit(1,2,false);
+	mouseWheel_2 = encoderInit(3,4,false);
+	mouseWheel_3 = encoderInit(5,6,false);
+
 }

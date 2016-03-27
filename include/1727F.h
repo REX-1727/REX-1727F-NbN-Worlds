@@ -13,4 +13,4 @@
 #endif /* 1727F_H_ */
 
 
-void defaultDrive();
+void basicDrive();

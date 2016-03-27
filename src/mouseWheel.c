@@ -41,7 +41,7 @@ float getXPosition(mouseWheel tracker)
 {
 	float XPosition;
 
-	for(int i = 0; i<MOUSEWHEEL_NUMBER;i++)
+	for(int i = 0; i<tracker.mousewheelNumber;i++)
 	{
 		XPosition += tracker.xConstants[i]*encoderGet(tracker.mouseWheels[i]);
 	}
@@ -52,7 +52,7 @@ float getYPosition(mouseWheel tracker)
 {
 	float YPosition;
 
-	for(int i = 0; i<MOUSEWHEEL_NUMBER;i++)
+	for(int i = 0; i<tracker.mousewheelNumber;i++)
 	{
 		YPosition += tracker.yConstants[i]*encoderGet(tracker.mouseWheels[i]);
 	}
@@ -63,7 +63,7 @@ float getRotation(mouseWheel tracker)
 {
 	float rotation;
 
-	for(int i = 0; i<MOUSEWHEEL_NUMBER;i++)
+	for(int i = 0; i<tracker.mousewheelNumber;i++)
 	{
 		rotation += tracker.angleConstants[i]*encoderGet(tracker.mouseWheels[i]);
 	}
@@ -79,7 +79,7 @@ size_t trainMouseWheel(mouseWheel mouse,int trainingSetSize, const char *fileNam
 		unsigned long startTime = millis();
 		while(millis() < startTime + TRAINING_TIME)
 		{
-			defaultDrive();
+			basicDrive();
 			delay(20);
 		}
 		stopAllMotors();

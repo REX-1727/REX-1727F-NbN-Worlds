@@ -1,16 +1,99 @@
 /*
- * 1727F.h
+ * 1727B.h
  *
- *  Created on: Mar 23, 2016
- *      Author: rexadmin
+ *  Created on: Jan 29, 2016
+ *      Author: Anton
  */
 
-#ifndef _1727F_H_
-#define _1727F_H_
+#ifndef _1727B_H_
+#define _1727B_H_
+
+#include <API.h>
+#include "rexAPI.h"
+#include "math.h"
+
+#define RF				4
+#define LF				3
+#define RB				2
+#define LB				10
+#define LOWER_INTAKE	1
+#define UPPER_INTAKE	6
+
+#define RF_ENCODER		0
+#define LF_ENCODER		1
+#define RB_ENCODER		2
+#define LB_ENCODER		3
+
+#define FLYWHEEL_CIRCUMFERENCE (5*3.1415926535)
 
 
+typedef struct pidVars
+{
+	float velocity;
+	float velocityRaw;
+	float power;
+	float powerRaw;
+}pidVars;
 
-#endif /* 1727F_H_ */
+typedef struct flywheel
+{
+	pidVars variables;
+	pidParams parameters;
+}flywheel;
 
+void flywheelInit(flywheel aFlywheel,float (*input)(), float (*target)(), float kP, float kI, float kD, int outputs[4]);
+
+void velocityReader(void *ignore);
+
+void powerListener(void *params);
+
+void driveControl(void *params);
+
+float gyroTarget;
+
+float getRPower();
+
+float getPower();
+
+float getRVel();
+
+float getVel();
+
+float getGyro();
+
+float getGyroTarget();
+
+void setGyroTarget(float target);
+
+void driveStraight(unsigned long time, float equilibriumSpeed);
+
+void strafeStraight(unsigned long time, float equilibriumSpeed);
 
 void basicDrive();
+
+bool twoJoysticks;
+
+flywheel rightFlywheel;
+
+flywheel shooter;
+
+TaskHandle rightFlywheel_task;
+
+TaskHandle shooter_task;
+
+TaskHandle powerListener_task;
+
+TaskHandle velocity_task;
+
+TaskHandle drive_task;
+
+TaskHandle joystick_task;
+
+Encoder shooterEncoder;
+
+Encoder rightFlywheelEncoder;
+
+Encoder upperIntakeEncoder;
+
+Gyro gyro;
+#endif /* _1727B_H_ */

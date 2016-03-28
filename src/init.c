@@ -33,6 +33,7 @@
  */
 
 #include "main.h"
+#include "1727F.h"
 
 /*
  * Runs pre-initialization code. This function will be started in kernel mode one time while the
@@ -58,12 +59,32 @@ void initializeIO() {
  * will not start. An autonomous mode selection menu like the pre_auton() in other environments
  * can be implemented in this task if desired.
  */
-Encoder mouseWheel_1;
-Encoder mouseWheel_2;
-Encoder mouseWheel_3;
-void initialize() {
-	mouseWheel_1 = encoderInit(1,2,false);
-	mouseWheel_2 = encoderInit(3,4,false);
-	mouseWheel_3 = encoderInit(5,6,false);
+int outputs[4] = {5, -8, 0, 0};
 
+
+
+void initialize() {
+	flywheelInit(shooter,getVel, getPower, 0, 0, 0, outputs);
+
+	shooterEncoder = encoderInit(3,4,true);
+	upperIntakeEncoder = encoderInit(5,6,false);
+
+
+	pidParams left = {getVel,getPower,-1,0.00085,0,0.075,{5, -8, 0, 0}};
+
+	lcdInit(uart1);
+
+	shooter_task = taskCreate(velocityPIDControl, TASK_DEFAULT_STACK_SIZE, &left, TASK_PRIORITY_DEFAULT);
+	velocity_task = taskCreate(velocityReader, TASK_DEFAULT_STACK_SIZE, NULL, TASK_PRIORITY_DEFAULT);
+	powerListener_task = taskCreate(powerListener, TASK_DEFAULT_STACK_SIZE, NULL, TASK_PRIORITY_DEFAULT);
+	joystick_task = taskCreate(getJoysticks, TASK_DEFAULT_STACK_SIZE, NULL, TASK_PRIORITY_DEFAULT);
+	//drive_task = taskCreate(driveControl, TASK_DEFAULT_STACK_SIZE, NULL, TASK_PRIORITY_DEFAULT);
+	printf("debug");
+	taskSuspend(shooter_task);
+	taskSuspend(velocity_task);
+	taskSuspend(powerListener_task);
+	taskSuspend(joystick_task);
+	//taskSuspend(drive_task);
+	//gyro = gyroInit(2,196);
+	//imeInitializeAll();
 }

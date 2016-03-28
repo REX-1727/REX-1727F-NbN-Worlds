@@ -70,7 +70,7 @@ void initialize() {
 	upperIntakeEncoder = encoderInit(5,6,false);
 
 
-	pidParams left = {getVel,getPower,-1,0.00085,0,0.075,{5, -8, 0, 0}};
+	pidParams left = {getVel,getPower,-1,0.00085,0,0.075,{0, 0, 0, 0}};
 
 	lcdInit(uart1);
 

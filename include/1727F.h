@@ -16,6 +16,8 @@
 #define LF				3
 #define RB				2
 #define LB				10
+#define RM				9
+#define LM				1
 #define LOWER_INTAKE	1
 #define UPPER_INTAKE	6
 

@@ -110,46 +110,15 @@ void powerListener(void *params)
 
 void driveControl(void *params)
 {
-	int rightBack;
-	int leftBack;
-	int rightFront;
-	int leftFront;
+
 	while(true)
 	{
-		rightBack = main.leftVertical.axisValue + main.leftHorizontal.axisValue - main.rightHorizontal.axisValue;
-		leftBack = -main.leftVertical.axisValue + main.leftHorizontal.axisValue - main.rightHorizontal.axisValue;
-		rightFront = main.leftVertical.axisValue - main.leftHorizontal.axisValue - main.rightHorizontal.axisValue;
-		leftFront = main.leftVertical.axisValue + main.leftHorizontal.axisValue + main.rightHorizontal.axisValue;
-		motorSet(RB, -rightBack);
-		motorSet(LB, leftBack);
-		motorSet(RF, -rightFront);
-		motorSet(LF, leftFront);
-
-		if(main.rightBumper.axisValue == JOY_UP)
-		{
-			motorSet(LOWER_INTAKE, -127);
-		}
-		else if(main.rightBumper.axisValue == JOY_DOWN)
-		{
-			motorSet(LOWER_INTAKE, 127);
-		}
-		else
-		{
-			motorSet(LOWER_INTAKE, 0);
-		}
-		if(main.leftBumper.axisValue == JOY_UP)
-		{
-			motorSet(UPPER_INTAKE, -127);
-		}
-		else if(main.leftBumper.axisValue == JOY_DOWN)
-		{
-			motorSet(UPPER_INTAKE, 127);
-		}
-		else
-		{
-			motorSet(UPPER_INTAKE, 0);
-		}
-
+		motorSet(LB,main.leftVertical.axisValue);
+		motorSet(LM,main.leftVertical.axisValue);
+		motorSet(LF,main.leftVertical.axisValue);
+		motorSet(RB,-main.rightVertical.axisValue);
+		motorSet(RM,-main.rightVertical.axisValue);
+		motorSet(RF,-main.rightVertical.axisValue);
 
 		taskDelay(20);
 	}

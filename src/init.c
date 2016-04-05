@@ -59,18 +59,18 @@ void initializeIO() {
  * will not start. An autonomous mode selection menu like the pre_auton() in other environments
  * can be implemented in this task if desired.
  */
-int outputs[4] = {5, -8, 0, 0};
+int outputs[4] = {3, -4,0 , 0};
 
 
 
 void initialize() {
 	flywheelInit(shooter,getVel, getPower, 0, 0, 0, outputs);
 
-	shooterEncoder = encoderInit(3,4,true);
-	upperIntakeEncoder = encoderInit(5,6,false);
+	shooterEncoder = encoderInit(1,2,false);
 
 
-	pidParams left = {getVel,getPower,-1,0.00085,0,0.075,{0, 0, 0, 0}};
+
+	pidParams left = {getVel,getPower,-1,0.00085,0,0.075,{3, -9, 6, -5}};
 
 	lcdInit(uart1);
 
@@ -78,7 +78,7 @@ void initialize() {
 	velocity_task = taskCreate(velocityReader, TASK_DEFAULT_STACK_SIZE, NULL, TASK_PRIORITY_DEFAULT);
 	powerListener_task = taskCreate(powerListener, TASK_DEFAULT_STACK_SIZE, NULL, TASK_PRIORITY_DEFAULT);
 	joystick_task = taskCreate(getJoysticks, TASK_DEFAULT_STACK_SIZE, NULL, TASK_PRIORITY_DEFAULT);
-	//drive_task = taskCreate(driveControl, TASK_DEFAULT_STACK_SIZE, NULL, TASK_PRIORITY_DEFAULT);
+	drive_task = taskCreate(driveControl, TASK_DEFAULT_STACK_SIZE, NULL, TASK_PRIORITY_DEFAULT);
 	printf("debug");
 	taskSuspend(shooter_task);
 	taskSuspend(velocity_task);

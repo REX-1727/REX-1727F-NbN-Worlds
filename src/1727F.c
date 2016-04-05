@@ -113,12 +113,12 @@ void driveControl(void *params)
 
 	while(true)
 	{
-		motorSet(LB,main.leftVertical.axisValue);
-		motorSet(LM,main.leftVertical.axisValue);
+		motorSet(LB,-main.leftVertical.axisValue);
 		motorSet(LF,main.leftVertical.axisValue);
 		motorSet(RB,-main.rightVertical.axisValue);
-		motorSet(RM,-main.rightVertical.axisValue);
-		motorSet(RF,-main.rightVertical.axisValue);
+		motorSet(RF,main.rightVertical.axisValue);
+
+
 
 		taskDelay(20);
 	}
@@ -160,77 +160,3 @@ void setGyroTarget(float target)
 
 //Auton Functions
 
-void driveStraight(unsigned long time, float equilibriumSpeed)
-{
-	float differential=0;
-	float speed = equilibriumSpeed;
-	float rightSpeed;
-	float leftSpeed;
-
-	int RB_count, RF_count, LB_count, LF_count;
-
-	gyroReset(gyro);
-
-	pidParams_raw differentialParams = {getGyro,getGyroTarget,-1,5,0,1,&differential};
-	TaskHandle differentialPID = taskCreate(positionPIDControl_raw, TASK_DEFAULT_STACK_SIZE,&differentialParams , TASK_PRIORITY_DEFAULT);
-	unsigned long startTime = millis();
-	while(millis() - startTime < time)
-	{
-		rightSpeed = speed + differential*.5;
-		leftSpeed = speed - differential*.5;
-
-		//imeGet(RB,&RB_count);
-		//imeGet(RF,&RF_count);
-		//imeGet(LB,&LB_count);
-		//imeGet(LF,&LF_count);
-
-
-		motorSet(RB,-rightSpeed);
-		motorSet(RF,-rightSpeed);
-		motorSet(LB,-leftSpeed);
-		motorSet(LF,leftSpeed);
-		printf("%f     ",leftSpeed);
-		printf("%f\r\n",rightSpeed);
-		delay(20);
-	}
-	taskDelete(differentialPID);
-}
-
-void strafeStraight(unsigned long time, float equilibriumSpeed)
-{
-	float differential;
-	float speed = equilibriumSpeed;
-	float frontSpeed;
-	float backSpeed;
-
-	gyroReset(gyro);
-
-	pidParams_raw differentialParams = {getGyro,getGyroTarget,-1,0,0,0,&differential};
-	TaskHandle differentialPID = taskCreate(positionPIDControl_raw, TASK_DEFAULT_STACK_SIZE,&differentialParams , TASK_PRIORITY_DEFAULT);
-	unsigned long startTime = millis();
-	while(millis()-startTime <time)
-	{
-		frontSpeed = speed - differential;
-		backSpeed = speed + differential;
-
-		motorSet(RB,backSpeed);
-		motorSet(RF,frontSpeed);
-		motorSet(LB,-backSpeed);
-		motorSet(LF,-frontSpeed);
-		delay(20);
-	}
-	taskDelete(differentialPID);
-}
-
-void strafe(unsigned long time, int speed)
-{
-	unsigned long startTime = millis();
-	while(millis()-startTime <time)
-	{
-		motorSet(RB,-speed);
-		motorSet(RF,speed);
-		motorSet(LB,speed);
-		motorSet(LF,speed);
-		delay(20);
-	}
-}

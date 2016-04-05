@@ -12,19 +12,14 @@
 #include "rexAPI.h"
 #include "math.h"
 
-#define RF				4
-#define LF				3
+#define RF				1
+#define LF				8
 #define RB				2
 #define LB				10
-#define RM				9
-#define LM				1
-#define LOWER_INTAKE	1
-#define UPPER_INTAKE	6
+#define LOWER_INTAKE	7
+#define UPPER_INTAKE	4
 
-#define RF_ENCODER		0
-#define LF_ENCODER		1
-#define RB_ENCODER		2
-#define LB_ENCODER		3
+
 
 #define FLYWHEEL_CIRCUMFERENCE (5*3.1415926535)
 
@@ -67,19 +62,11 @@ float getGyroTarget();
 
 void setGyroTarget(float target);
 
-void driveStraight(unsigned long time, float equilibriumSpeed);
-
-void strafeStraight(unsigned long time, float equilibriumSpeed);
-
 void basicDrive();
 
 bool twoJoysticks;
 
-flywheel rightFlywheel;
-
 flywheel shooter;
-
-TaskHandle rightFlywheel_task;
 
 TaskHandle shooter_task;
 
@@ -92,10 +79,6 @@ TaskHandle drive_task;
 TaskHandle joystick_task;
 
 Encoder shooterEncoder;
-
-Encoder rightFlywheelEncoder;
-
-Encoder upperIntakeEncoder;
 
 Gyro gyro;
 #endif /* _1727B_H_ */

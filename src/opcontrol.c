@@ -33,6 +33,7 @@
  */
 
 #include "main.h"
+#include "1727F.h"
 
 /*
  * Runs the user operator control code. This function will be started in its own task with the
@@ -52,9 +53,11 @@
  * This task should never exit; it should end with some kind of infinite loop, even if empty.
  */
 void operatorControl() {
-	taskResume(shooter_task);
-	taskResume(velocity_task);
-	taskResume(powerListener_task);
+	//taskResume(shooter_task);
+	//taskResume(velocity_task);
+	//taskResume(powerListener_task);
+	taskResume(joystick_task);
+	taskResume(drive_task);
 	while (1) {
 		delay(20);
 	}
